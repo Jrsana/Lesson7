@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script>
+    window.onload = function () {
+      var mainDiv = document.getElementById("main-div");
+        mainDiv.addEventListener("mouseover", mouseAdvise);
+
+        function mouseAdvise(e){
+            var target = e && e.target || window.event.srcElement;
+            var dataToggleId = target.getAttribute('data-tooltip');
+            if (!dataToggleId) {
+                return;
+            };
+            var tooltip = document.createElement('div');
+            target.style.position="relative";
+            tooltip.insertAdjacentText ("beforeEnd", dataToggleId);
+            tooltip.className = "tooltip-content";
+            tooltip.style.cssText= "position:absolute; top: 30px; left:10px;background:#ccc;padding:10px;color:#000;"
+            target.appendChild(tooltip);
+
+            target.onmouseout = function () {
+                var mouseOutTooltip = null;
+                for (var i = 0; target.childNodes.length > i; i++) {
+                    if (target.childNodes[i].className == "tooltip-content") {
+                        mouseOutTooltip = target.childNodes[i];
+                        mouseOutTooltip.parentNode.removeChild(mouseOutTooltip);
+                    }
+                };
+            };
+        }
+
+
+
+};
+</script>
+</head>
+<body>
+  <div id="main-div">
+    <span data-tooltip="наведите">наведите</span> 
+    <span data-tooltip="для">для</span> 
+    <span data-tooltip="подсказки">подсказки</span>
+</div>
+</body>
+</html>

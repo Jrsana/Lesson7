@@ -1,0 +1,114 @@
+<!-- Доработайте пример, 005_thisExample.html, при наведении мыши к одному из блоков, цвет блока должен измениться, на уникальный, такой которого еще нету у существующих блоков. Также выведите в блок текстовое оповещение о информации цвета, который используется для фона данного блока. При попытке закрыть вкладку, придупредите пользователя о том что информация будет утеряна. Используйте window.onload.  -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Домашнее задание</title>
+    <style>
+		*{
+			margin:0;
+			padding:0;
+		}
+        div {
+            width:100%;
+			max-width:200px;
+			margin: 0 auto;
+			overflow:hidden;
+			background:red;
+			box-sizing:border-box;
+        }
+		ul{
+			position:relative;
+		}
+		li{
+			width:200px;
+			height:200px;
+			float:left;
+			list-style:none;
+			
+		}
+		.yellow{
+			background:yellow;
+		}
+		.grey{
+			background:grey;
+		}
+		.blue{
+			background:blue;
+		}
+		.magenta{
+			background:magenta;
+		}
+		.black{
+			background:black;
+		}
+    </style>
+    <script>
+	    window.onload = function () {
+			var slider = document.getElementById("slider"),
+				allItems = slider.children,
+				count = allItems.length,
+			 itemWidth =  parseInt(window.getComputedStyle(allItems[0]).getPropertyValue("width")),
+			 ulWidth = itemWidth * count,
+			 nextBtn = document.querySelector("button.next"),
+            prevBtn = document.querySelector("button.prev"),
+
+			limit = -(itemWidth * (count-1));
+            prevBtn.setAttribute("disabled", true);
+			slider.style.width= itemWidth * count + "px";
+			
+			function nextItem(){
+		
+				var left = isNaN(parseInt(slider.style.left)) ? 0 : parseInt(slider.style.left);
+                prevBtn.removeAttribute("disabled");
+					if(left==limit ){
+						nextBtn.setAttribute("disabled", true);
+					}else{
+						slider.style.cssText += "left:" + (left - itemWidth) + "px";
+						if(left == (-(itemWidth * (count-2)))){
+							nextBtn.setAttribute("disabled", true);
+						}
+
+					}
+		
+				
+			}
+
+            function  prevItem(){
+                var left = isNaN(parseInt(slider.style.left)) ? 0 : parseInt(slider.style.left);
+                prevBtn.removeAttribute("disabled");
+                nextBtn.removeAttribute("disabled");
+                if(left==0 ){
+                    prevBtn.setAttribute("disabled", true);
+                }else{
+                    prevBtn.removeAttribute("disabled");
+                    slider.style.cssText += "left:" + (left + itemWidth) + "px";
+                    console.log(left);
+                    if(left==-itemWidth ){
+                        prevBtn.setAttribute("disabled", true);
+                        nextBtn.removeAttribute("disabled");
+                    }
+
+                }
+            }
+			nextBtn.onclick = nextItem;
+            prevBtn.onclick = prevItem;
+		}
+		
+    </script>
+</head>
+<body>
+ <div>
+	<ul id="slider">
+		<li class="yellow"></li>
+		<li class="blue"></li>
+		<li class="grey"></li>
+		<li class="magenta"></li>
+		<li class="black"></li>
+	</ul>
+	<button class="next">Next</button>
+     <button class="prev">Prev</button>
+ </div>
+
+</body>
+</html>
